@@ -1,0 +1,96 @@
+{% load rest_framework %}
+<html>
+<head>
+    <title></title>
+    <meta content="">
+    <style></style>
+    <script src="/static/html5-qrcode.min.js"></script>
+    <script src="/static/nfe-reader.js"></script>
+</head>
+<body>
+
+
+<div style="width: 500px" id="reader"></div>
+<div class="tabbable">
+    <ul class="nav nav-tabs form-switcher">
+        <li class="active">
+            <a name="html-tab" href="#post-object-form" data-toggle="tab" aria-expanded="true">HTML form</a>
+        </li>
+        <li>
+            <a name="raw-tab" href="#post-generic-content-form" data-toggle="tab">Raw data</a>
+        </li>
+    </ul>
+    <div class="well tab-content">
+        <div class="tab-pane active" id="post-object-form">
+            <form id="nfe-form-input" action="/nfe/" method="POST" enctype="multipart/form-data" class="form-horizontal" novalidate="">
+                <fieldset>
+<!--                    <input type="hidden" name="csrfmiddlewaretoken"-->
+<!--                           value="ZQaBBQRmrLiiZjLGqbnlqbA8Tzhomu4Z3btLRRX48jLI5WS5M3C4qh3UGTrbwPYo">-->
+                    <div class="form-group ">
+                        <label class="col-sm-2 control-label ">
+                            Url
+                        </label>
+                        <div class="col-sm-10">
+                            <input id="nfe-url-input" name="url" class="form-control" type="url" value="">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary js-tooltip" title=""
+                                data-original-title="Make a POST request on the Nfe List resource">POST
+                        </button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+   function onScanSuccess(decodedText, decodedResult) {
+    // Handle on success condition with the decoded text or result.
+    console.log(`Scan result: ${decodedText}`, decodedResult);
+}
+
+var html5QrcodeScanner = new Html5QrcodeScanner(
+	"reader", { fps: 10, qrbox: 250 });
+html5QrcodeScanner.render(onScanSuccess);
+
+
+var html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader", { fps: 10, qrbox: 250 });
+
+function onScanSuccess(decodedText, decodedResult) {
+    // Handle on success condition with the decoded text or result.
+
+    console.log(`Scan result: ${decodedText}`, decodedResult);
+    // ...
+    html5QrcodeScanner.clear();
+
+
+    // ^ this will stop the scanner (video feed) and clear the scan area.
+}
+
+html5QrcodeScanner.render(onScanSuccess);
+
+
+function onScanSuccess(decodedText, decodedResult) {
+    // Handle on success condition with the decoded text or result.
+    console.log(`Scan result: ${decodedText}`, decodedResult);
+    document.getElementById('nfe-url-input').value=decodedResult.decodedText
+    document.getElementById('nfe-form-input').submit()
+}
+
+function onScanError(errorMessage) {
+    // handle on error condition, with error message
+}
+
+var html5QrcodeScanner = new Html5QrcodeScanner(
+    "reader", { fps: 10, qrbox: 250 });
+html5QrcodeScanner.render(onScanSuccess, onScanError);
+
+
+</script>
+
+</body>
+</html>

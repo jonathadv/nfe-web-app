@@ -1,0 +1,72 @@
+[tool.poetry]
+name = "nfe-web-app"
+version = "0.1.0"
+description = ""
+authors = ["Jonatha Daguerre Vasconcelos <jonatha@daguerre.com.br>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+djangorestframework = "^3.13.1"
+Markdown = "^3.4.1"
+django-filter = "^22.1"
+Django = "^4.0.6"
+psycopg2 = "^2.9.3"
+beautifulsoup4 = "^4.11.1"
+pydash = "^5.1.0"
+requests = "^2.28.1"
+pydantic = "^1.9.1"
+arrow = "^1.2.2"
+furl = "^2.1.3"
+
+
+[tool.poetry.dev-dependencies]
+black = "^22.3.0"
+pylint = "^2.14.4"
+taskipy = "^1.9.0"
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+snapshottest = "^0.6.0"
+
+
+[tool.poetry.scripts]
+poetry = 'nfeweb.core:say_hi'
+
+[tool.black]
+line-length = 100
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+# A regex preceded with ^/ will apply only to files and directories
+# in the root of the project.
+^/foo.py  # exclude a file named foo.py in the root of the project (in addition to the defaults)
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = """
+-v
+--show-capture=no
+"""
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["nfeweb"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 100
+
+[tool.taskipy.tasks]
+format = { cmd = "isort nfeweb tests && black nfeweb", help = "format with isort and black" }
+lint = { cmd = "pylint nfeweb", help = "confirms code style using pylint" }
+test = { cmd = "pytest", help = "runs all unit tests" }
+"test:cov" = { cmd = "pytest --cov", help = "runs all unit tests" }
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
