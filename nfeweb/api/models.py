@@ -27,12 +27,13 @@ class AddressDbModel(BaseModel):
 
 
 class ProductDbModel(BaseModel):
-    barcode = models.CharField(max_length=255, unique=True)
-    description = models.TextField()
-
     class MetricUnit(models.TextChoices):
         KG = "KG", _("KG")
         UNIT = "UNIT", _("UNIT")
+
+    barcode = models.CharField(max_length=255, unique=True)
+    description = models.TextField()
+    metric_unit = models.CharField(max_length=10, choices=MetricUnit.choices)
 
     class Meta:
         db_table = "product"
@@ -56,6 +57,12 @@ class NfeConsumerDbModel(BaseModel):
 
 
 class NfeDbModel(BaseModel):
+    class PaymentType(models.TextChoices):
+        CREDIT_CARD = "CREDIT_CARD", _("Credit Card")
+        DEBIT_CARD = "DEBIT_CARD", _("Debit Card")
+        MONEY = "MONEY", _("Money")
+        STORE_CARD = "STORE_CARD", _("Store Card")
+
     issuer = models.ForeignKey(NfeIssuerDbModel, on_delete=models.PROTECT, related_name="nfes")
     consumer = models.ForeignKey(
         NfeConsumerDbModel, on_delete=models.PROTECT, related_name="consumer"
@@ -66,14 +73,7 @@ class NfeDbModel(BaseModel):
     total_discounts = models.FloatField()
     raw_html = models.TextField()
     url = models.URLField()
-
-    class PaymentType(models.TextChoices):
-        KG = "KG", _("KG")
-        UNIT = "UNIT", _("UNIT")
-        CREDIT_CARD = "CREDIT_CARD", _("Credit Card")
-        DEBIT_CARD = "DEBIT_CARD", _("Debit Card")
-        MONEY = "MONEY", _("Money")
-        ISSUER_CARD = "ISSUER_CARD", _("Issuer Card")
+    payment_type = models.CharField(max_length=20, choices=PaymentType.choices)
 
     class Meta:
         db_table = "nfe"

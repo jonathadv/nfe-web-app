@@ -14,6 +14,8 @@ SELECT n.id AS nfe_id,
        concat(a.line1, ', ', a.line2, ' ', a.city, ', ', a.state, ', ', a.country) AS issuer_address,
        p.barcode AS item_barcode,
        p.description AS item_description,
+       p.metric_unit AS item_metric_unit,
+       ne.quantity  AS item_quantity,
        ne.unitary_price AS item_unitary_price,
        ne.total_price AS item_total_price
 FROM nfe n

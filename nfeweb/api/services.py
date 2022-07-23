@@ -33,6 +33,7 @@ class NfeDbService:
                 "access_key": scanned_nfe.access_key,
                 "total_amount": scanned_nfe.total_amount,
                 "total_discounts": scanned_nfe.total_discounts,
+                "payment_type": scanned_nfe.payment_type.value,
                 "raw_html": scanned_nfe.raw_html,
                 "url": url,
             }
@@ -90,6 +91,7 @@ class NfeDbService:
                 data={
                     "barcode": item.barcode,
                     "description": item.description,
+                    "metric_unit": item.metric_unit.value,
                 }
             )
             product_serializer.is_valid(raise_exception=True)
