@@ -1,6 +1,9 @@
+import logging
+
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError
+
+LOGGER = logging.getLogger(__name__)
 
 from nfeweb.api.models import (
     AddressDbModel,
@@ -38,9 +41,18 @@ class IssuerSerializer(serializers.ModelSerializer):
     address = AddressSerializer(read_only=False)
 
     def create(self, validated_data):
-        address = AddressDbModel.objects.create(**validated_data.pop("address"))
+        address = self.get_address(validated_data.pop("address"))
         instance = NfeIssuerDbModel.objects.create(**validated_data, address=address)
         return instance
+
+    @staticmethod
+    def get_address(address: dict) -> dict | AddressDbModel:
+        try:
+            return AddressDbModel.objects.get(**address)
+        except AddressDbModel.DoesNotExist:
+            LOGGER.info("Address %s not found. Creating a new one. ", address)
+            address = AddressDbModel.objects.create(**address)
+            return address
 
     class Meta:
         model = NfeIssuerDbModel
