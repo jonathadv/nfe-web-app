@@ -77,6 +77,7 @@ WSGI_APPLICATION = "nfeweb.config.wsgi.application"
 
 DATABASES = {
     "default": {
+        "ATOMIC_REQUESTS": True,
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": "nfeweb",
         "USER": "nfeweb",
