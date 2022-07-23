@@ -74,19 +74,31 @@ WSGI_APPLICATION = "nfeweb.config.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+DB_CREDS_INFO = {
+    "admin": {
+        "NAME": "postgres",
+        "USER": os.environ.get("DB_ADMIN_USER", ""),
+        "PASSWORD": os.environ.get("DB_ADMIN_PASSWORD", ""),
+    },
+    "nfeweb": {
+        "NAME": "nfeweb",
+        "USER": "nfeweb",
+        "PASSWORD": "nfeweb",
+    },
+}
+
+RUN_AS_DB_ADMIN = os.environ.get("RUN_AS_DB_ADMIN", "false").lower() == "true"
+DB_CREDS = DB_CREDS_INFO["admin"] if RUN_AS_DB_ADMIN else DB_CREDS_INFO["nfeweb"]
 
 DATABASES = {
     "default": {
         "ATOMIC_REQUESTS": True,
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "nfeweb",
-        "USER": "nfeweb",
-        "PASSWORD": "nfeweb",
         "HOST": "localhost",
         "PORT": "5432",
     }
 }
-
+DATABASES["default"].update(DB_CREDS)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

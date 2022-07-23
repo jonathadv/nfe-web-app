@@ -1,11 +1,16 @@
+import logging
+
 from rest_framework.exceptions import ValidationError
 
 from nfe_reader.models import Nfe, NfeConsumer, NfeItem
 from nfe_reader.nfe import scan_nfe
-from nfeweb.api.models import ProductDbModel, NfeConsumerDbModel
-from nfeweb.api.serializers import NfeEntrySerializer, NfeSerializer, ProductSerializer, ConsumerSerializer
-
-import logging
+from nfeweb.api.models import NfeConsumerDbModel, ProductDbModel
+from nfeweb.api.serializers import (
+    ConsumerSerializer,
+    NfeEntrySerializer,
+    NfeSerializer,
+    ProductSerializer,
+)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -17,7 +22,6 @@ class NfeScanService:
 
 
 class NfeDbService:
-
     def create(self, url: str, scanned_nfe: Nfe) -> NfeSerializer:
         LOGGER.info("Saving new NFe model with access key '%s'", scanned_nfe.access_key)
 
@@ -43,7 +47,12 @@ class NfeDbService:
 
     def create_nfe_entry(self, item: NfeItem, nfe_id: str):
         product_id = self.maybe_create_product(item)
-        LOGGER.info("Saving new NFe entry for product id '%s'; barcode '%s'; description %s", product_id, item.barcode, item.description)
+        LOGGER.info(
+            "Saving new NFe entry for product id '%s'; barcode '%s'; description %s",
+            product_id,
+            item.barcode,
+            item.description,
+        )
 
         entry_serializer = NfeEntrySerializer(
             data={
@@ -67,7 +76,9 @@ class NfeDbService:
             consumer_id = consumer_serializer.data.get("id")
         except ValidationError as err:
             if "already exists" in str(err.args[0]):
-                consumer_id = NfeConsumerDbModel.objects.get(identification=consumer.identification).id
+                consumer_id = NfeConsumerDbModel.objects.get(
+                    identification=consumer.identification
+                ).id
             else:
                 raise
         return consumer_id
@@ -82,20 +93,30 @@ class NfeDbService:
                 }
             )
             product_serializer.is_valid(raise_exception=True)
-            LOGGER.info("Creating new product with barcode '%s' and description '%s' ", item.barcode, item.description)
+            LOGGER.info(
+                "Creating new product with barcode '%s' and description '%s' ",
+                item.barcode,
+                item.description,
+            )
 
             product_serializer.save()
             product_id = product_serializer.data.get("id")
         except ValidationError as err:
             if "already exists" in str(err.args[0]):
-                LOGGER.info("Product with barcode '%s' and description '%s' already exists! Using it.", item.barcode, item.description)
+                LOGGER.info(
+                    "Product with barcode '%s' and description '%s' already exists! Using it.",
+                    item.barcode,
+                    item.description,
+                )
                 product = ProductDbModel.objects.get(barcode=item.barcode)
                 product_id = product.id
 
                 if product.description != item.description:
-                    raise ValidationError(f"Found product with barcode {item.barcode} but description does not match: "
-                                          f"Description in db: {product.description}; "
-                                          f"Description in new entry: {item.description};")
+                    raise ValidationError(
+                        f"Found product with barcode {item.barcode} but description does not match: "
+                        f"Description in db: {product.description}; "
+                        f"Description in new entry: {item.description};"
+                    )
 
             else:
                 raise

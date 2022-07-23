@@ -48,7 +48,6 @@ class IssuerSerializer(serializers.ModelSerializer):
 
 
 class ConsumerSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = NfeConsumerDbModel
         fields = "__all__"
