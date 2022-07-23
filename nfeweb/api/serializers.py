@@ -3,8 +3,6 @@ import logging
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
 
-LOGGER = logging.getLogger(__name__)
-
 from nfeweb.api.models import (
     AddressDbModel,
     NfeConsumerDbModel,
@@ -13,6 +11,8 @@ from nfeweb.api.models import (
     NfeIssuerDbModel,
     ProductDbModel,
 )
+
+LOGGER = logging.getLogger(__name__)
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -29,6 +29,12 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 
 class NfeCreateByUrlSerializer(serializers.Serializer):
     url = serializers.URLField()
+
+    def create(self, validated_data):
+        super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        super().update(validated_data)
 
 
 class AddressSerializer(serializers.ModelSerializer):

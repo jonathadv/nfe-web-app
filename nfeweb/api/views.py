@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group, User
 from django.http import HttpResponseRedirect
-from rest_framework import permissions, status, viewsets
+from rest_framework import permissions, viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -54,8 +54,6 @@ class NfeScanViewSet(viewsets.ModelViewSet):
         scanned_nfe: Nfe = NfeScanService.scan_nfe(nfe_url)
 
         nfe_serializer: NfeSerializer = NfeDbService().create(nfe_url, scanned_nfe)
-
-        # return Response(result, status=status.HTTP_302_FOUND)
 
         return HttpResponseRedirect(redirect_to=f'/nfe/{nfe_serializer.data.get("id")}/')
 

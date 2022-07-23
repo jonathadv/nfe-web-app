@@ -118,7 +118,7 @@ class NfeDbService:
                         f"Found product with barcode {item.barcode} but description does not match: "
                         f"Description in db: {product.description}; "
                         f"Description in new entry: {item.description};"
-                    )
+                    ) from err
 
             else:
                 raise
