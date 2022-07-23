@@ -2,8 +2,8 @@ import logging
 
 from rest_framework.exceptions import ValidationError
 
-from nfe_reader.models import Nfe, NfeConsumer, NfeItem
-from nfe_reader.nfe import scan_nfe
+from nfe_scanner.models import Nfe, NfeConsumer, NfeItem
+from nfe_scanner.nfe import scan_nfe
 from nfeweb.api.models import NfeConsumerDbModel, ProductDbModel
 from nfeweb.api.serializers import (
     ConsumerSerializer,

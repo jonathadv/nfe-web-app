@@ -5,7 +5,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from nfe_reader.models import Nfe
+from nfe_scanner.models import Nfe
 from nfeweb.api.models import NfeDbModel
 from nfeweb.api.serializers import (
     GroupSerializer,
