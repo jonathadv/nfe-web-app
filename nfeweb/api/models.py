@@ -72,7 +72,7 @@ class NfeDbModel(BaseModel):
     total_amount = models.FloatField()
     total_discounts = models.FloatField()
     raw_html = models.TextField()
-    url = models.URLField()
+    url = models.URLField(max_length=2048)
     payment_type = models.CharField(max_length=20, choices=PaymentType.choices)
 
     class Meta:
