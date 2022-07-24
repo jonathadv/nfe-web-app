@@ -27,7 +27,7 @@ pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
 snapshottest = "^0.6.0"
 pylint-django = "^2.5.3"
-nfe-scanner = { git = "https://github.com/jonathadv/nfe-scanner.git", branch = "0.1.0" }
+nfe-scanner = { git = "https://github.com/jonathadv/nfe-scanner.git", branch = "0.1.1" }
 
 [tool.poetry.scripts]
 poetry = 'nfeweb.core:say_hi'
