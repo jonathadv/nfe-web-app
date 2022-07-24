@@ -9,6 +9,13 @@ poetry install
 poetry shell
 ```
 
+**Create data directory**
+```bash
+mkdir -p /data/nfeweb/nfeweb-grafana/data
+mkdir -p /data/nfeweb/nfeweb-db/data
+chown 644 -R /data/nfeweb/
+```
+
 **Run docker-compose**
 ```bash
 docker-compose up -d

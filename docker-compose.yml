@@ -2,25 +2,25 @@ version: '2'
 
 services:
   grafana:
-    container_name: nfeweb_grafana
+    container_name: nfeweb-grafana
     image: grafana/grafana-oss
     user: $DOCKER_UID:$DOCKER_GID
     ports:
       - 3000:3000
     volumes:
-      - /data/nfe-reader/grafana/data:/var/lib/grafana
+      - /data/nfeweb/nfeweb-grafana/data:/var/lib/grafana
       - /etc/timezone:/etc/timezone:ro
     environment:
       - TZ=America/Sao_Paulo
 
   db:
-    container_name: nfeweb_db
+    container_name: nfeweb-db
     image: postgres
     restart: always
     ports:
       - 5432:5432
     volumes:
-      - /data/nfe-reader/postgres/data:/data/pgdata
+      - /data/nfeweb/nfeweb-db/data:/data/pgdata
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
@@ -35,5 +35,5 @@ services:
     ports:
       - 8090:8000
     environment:
-      DB_HOST: nfeweb_db
+      DB_HOST: nfeweb-db
       DB_POST: 5432
