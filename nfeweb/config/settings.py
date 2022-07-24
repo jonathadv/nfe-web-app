@@ -94,8 +94,8 @@ DATABASES = {
     "default": {
         "ATOMIC_REQUESTS": True,
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "HOST": os.environ.get("DB_HOST", "localhost"),
+        "PORT": os.environ.get("DB_POST", "5432"),
     }
 }
 DATABASES["default"].update(DB_CREDS)
