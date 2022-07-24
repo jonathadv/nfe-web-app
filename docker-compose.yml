@@ -33,7 +33,7 @@ services:
     container_name: nfeweb
     restart: always
     ports:
-      - 8000:8000
+      - 8090:8000
     environment:
       DB_HOST: nfeweb_db
       DB_POST: 5432

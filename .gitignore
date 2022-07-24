@@ -130,3 +130,7 @@ dmypy.json
 
 # IDEs
 .idea/
+
+# static files
+nfeweb/static/admin/
+nfeweb/static/rest_framework/
