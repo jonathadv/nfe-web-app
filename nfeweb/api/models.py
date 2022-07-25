@@ -26,6 +26,16 @@ class AddressDbModel(BaseModel):
         db_table = "address"
 
 
+class ProductCategory(BaseModel):
+    title = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        db_table = "product_category"
+
+    def __str__(self):
+        return f"{self.__class__.__name__}(title={self.title})"
+
+
 class ProductDbModel(BaseModel):
     class MetricUnit(models.TextChoices):
         KG = "KG", _("KG")
@@ -34,6 +44,9 @@ class ProductDbModel(BaseModel):
     barcode = models.CharField(max_length=255, unique=True)
     description = models.TextField()
     metric_unit = models.CharField(max_length=10, choices=MetricUnit.choices)
+    category = models.ForeignKey(
+        ProductCategory, on_delete=models.PROTECT, related_name="product"
+    )
 
     class Meta:
         db_table = "product"

@@ -9,7 +9,7 @@ from nfeweb.api.models import (
     NfeDbModel,
     NfeEntryDbModel,
     NfeIssuerDbModel,
-    ProductDbModel,
+    ProductDbModel, ProductCategory,
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -25,6 +25,12 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Group
         fields = ["url", "name"]
+
+
+class ProductCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductCategory
+        fields = "__all__"
 
 
 class NfeCreateByUrlSerializer(serializers.Serializer):

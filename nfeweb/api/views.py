@@ -1,18 +1,18 @@
 from django.contrib.auth.models import Group, User
 from django.http import HttpResponseRedirect
+from nfe_scanner.models import Nfe
 from rest_framework import permissions, viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from nfe_scanner.models import Nfe
-from nfeweb.api.models import NfeDbModel
+from nfeweb.api.models import NfeDbModel, ProductCategory, ProductDbModel
 from nfeweb.api.serializers import (
     GroupSerializer,
     NfeCreateByUrlSerializer,
     NfeSerializer,
     NfeSerializerWithEntries,
-    UserSerializer,
+    UserSerializer, ProductCategorySerializer, ProductSerializer,
 )
 from nfeweb.api.services import NfeDbService, NfeScanService
 
@@ -35,6 +35,16 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = ProductDbModel.objects.all()
+    serializer_class = ProductSerializer
+
+
+class ProductCategoryViewSet(viewsets.ModelViewSet):
+    queryset = ProductCategory.objects.all()
+    serializer_class = ProductCategorySerializer
 
 
 class NfeViewSet(viewsets.ModelViewSet):
