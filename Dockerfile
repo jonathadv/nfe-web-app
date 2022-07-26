@@ -16,7 +16,7 @@ RUN pip install "poetry==$POETRY_VERSION"
 WORKDIR /app
 COPY . /app
 
-RUN poetry install
+RUN poetry install --no-dev
 RUN poetry run pip install uwsgi==$WSGI_VERSION -I
 RUN poetry run python manage.py collectstatic --noinput
 CMD ["poetry", "run", "uwsgi", "--ini", "uwsgi.ini"]
