@@ -45,7 +45,7 @@ class ProductDbModel(BaseModel):
     description = models.TextField()
     metric_unit = models.CharField(max_length=10, choices=MetricUnit.choices)
     category = models.ForeignKey(
-        ProductCategory, on_delete=models.PROTECT, related_name="product"
+        ProductCategory, on_delete=models.PROTECT, related_name="product", null=True
     )
 
     class Meta:
