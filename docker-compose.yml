@@ -4,6 +4,7 @@ services:
   grafana:
     container_name: nfeweb-grafana
     image: grafana/grafana-oss
+    restart: always
     user: $DOCKER_UID:$DOCKER_GID
     ports:
       - 3000:3000
