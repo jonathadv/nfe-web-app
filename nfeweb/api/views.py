@@ -1,5 +1,6 @@
 from django.contrib.auth.models import Group, User
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 from nfe_scanner.models import Nfe
 from rest_framework import permissions, viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
@@ -12,7 +13,9 @@ from nfeweb.api.serializers import (
     NfeCreateByUrlSerializer,
     NfeSerializer,
     NfeSerializerWithEntries,
-    UserSerializer, ProductCategorySerializer, ProductSerializer,
+    UserSerializer,
+    ProductCategorySerializer,
+    ProductSerializer,
 )
 from nfeweb.api.services import NfeDbService, NfeScanService
 
@@ -65,7 +68,9 @@ class NfeScanViewSet(viewsets.ModelViewSet):
 
         nfe_serializer: NfeSerializer = NfeDbService().create(nfe_url, scanned_nfe)
 
-        return HttpResponseRedirect(redirect_to=f'/nfe/{nfe_serializer.data.get("id")}/')
+        return HttpResponseRedirect(
+            redirect_to=reverse("nfe-detail", args=[nfe_serializer.data.get("id")])
+        )
 
 
 class NfeCodeReader(APIView):
