@@ -6,6 +6,7 @@ from rest_framework import permissions, viewsets
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django_filters.rest_framework import DjangoFilterBackend
 
 from nfeweb.api.models import NfeDbModel, ProductCategory, ProductDbModel
 from nfeweb.api.serializers import (
@@ -43,11 +44,20 @@ class GroupViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = ProductDbModel.objects.all()
     serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["category__title", "metric_unit", "barcode"]
+
+    def get_queryset(self):
+        if "no_category" in self.request.query_params:
+            return self.queryset.filter(category=None)
+        return super().get_queryset()
 
 
 class ProductCategoryViewSet(viewsets.ModelViewSet):
     queryset = ProductCategory.objects.all()
     serializer_class = ProductCategorySerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["title"]
 
 
 class NfeViewSet(viewsets.ModelViewSet):
