@@ -33,7 +33,7 @@ class ProductCategory(BaseModel):
         db_table = "product_category"
 
     def __str__(self):
-        return f"{self.__class__.__name__}(title={self.title})"
+        return f"{self.title}"
 
 
 class ProductDbModel(BaseModel):
