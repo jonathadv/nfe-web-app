@@ -383,8 +383,8 @@ requests-html = "^0.10.0"
 [package.source]
 type = "git"
 url = "https://github.com/jonathadv/nfe-scanner.git"
-reference = "0.1.6"
-resolved_reference = "85dd679c32251330f4901f79a3d797843734b6c5"
+reference = "0.1.7"
+resolved_reference = "26471c042c5932952f6d151304474b000d895a28"
 
 [[package]]
 name = "orderedmultidict"
@@ -863,7 +863,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "flake8 (<5)", "pytest-co
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "88445985ff63fdb5a881751ae91a79f8bf435cee08e6b1ff2f08d24a4aa52e4b"
+content-hash = "a8458f07aa1871569ba6bd80e02765e4f6cb2f40e67df5426418c1eee7320f86"
 
 [metadata.files]
 appdirs = []
