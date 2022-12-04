@@ -1,20 +1,26 @@
 {% extends 'rest_framework/base.html' %}
 {% load rest_framework %}
+
+<!-- Content -->
 {% block content %}
 
-{% for product in products %}
-<div class="form-group">
-    <h3>{{ product.description.value }}</h3>
-    <form class="well" action="{% url 'uncategorized-products' %}" method="post" novalidate>
-        {% csrf_token %}
-        {% render_form product template_pack='rest_framework/vertical' %}
-        <input type="hidden" name="id" value="{{ product.id.value }}">
-        <button type="submit" class="btn btn-default">Submit</button>
-    </form>
+<div class="page-header">
+    <h1>{{ name }}</h1>
 </div>
-{% endfor %}
 
-{% endblock %}
+    {% for product in products %}
+    <div class="form-group">
+        <form class="well" action="{% url 'uncategorized-products' %}" method="post" novalidate>
+            <h3>{{ product.description.value }}</h3>
+            {% csrf_token %}
+            {% render_form product template_pack='rest_framework/vertical' %}
+            <input type="hidden" name="id" value="{{ product.id.value }}">
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+    {% endfor %}
+
+{% endblock content %}
 
 
 

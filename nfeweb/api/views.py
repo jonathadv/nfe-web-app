@@ -89,7 +89,7 @@ class NfeCodeReader(APIView, mixins.UpdateModelMixin):
     template_name = "nfe.html"
 
     def get(self, request):
-        return Response({"profiles": ""})
+        return Response({"name": "Uncategorized Products"})
 
 
 class UncategorizedProducts(APIView):
