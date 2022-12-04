@@ -9,7 +9,8 @@ from nfeweb.api.models import (
     NfeDbModel,
     NfeEntryDbModel,
     NfeIssuerDbModel,
-    ProductDbModel, ProductCategory,
+    ProductCategory,
+    ProductDbModel,
 )
 
 LOGGER = logging.getLogger(__name__)

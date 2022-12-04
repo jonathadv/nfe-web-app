@@ -12,4 +12,8 @@ api_router.register(r"product-category", views.ProductCategoryViewSet, basename=
 api_router.register(r"product", views.ProductViewSet, basename="product")
 
 code_reader = path("nfe-reader", views.NfeCodeReader.as_view(), name="code_reader")
-uncategorized_products = path("nfeweb/uncategorized-products", views.UncategorizedProducts.as_view(), name="uncategorized-products")
+uncategorized_products = path(
+    "nfeweb/uncategorized-products",
+    views.UncategorizedProducts.as_view(),
+    name="uncategorized-products",
+)
