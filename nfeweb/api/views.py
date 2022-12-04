@@ -80,16 +80,17 @@ class NfeScanViewSet(viewsets.ModelViewSet):
         nfe_serializer: NfeSerializer = NfeDbService().create(nfe_url, scanned_nfe)
 
         return HttpResponseRedirect(
-            redirect_to=reverse("nfe-detail", args=[nfe_serializer.data.get("id")])
+            redirect_to=f"{reverse('nfe-scan-result')}?id={nfe_serializer.data.get('id')}"
         )
 
 
-class NfeCodeReader(APIView, mixins.UpdateModelMixin):
+class NfeScanResult(APIView, mixins.UpdateModelMixin):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = "nfe.html"
 
     def get(self, request):
-        return Response({"name": "Uncategorized Products"})
+        queryset = NfeDbModel.objects.get(id=request.GET.get("id"))
+        return Response({"queryset": queryset})
 
 
 class UncategorizedProducts(APIView):
