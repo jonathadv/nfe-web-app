@@ -2,9 +2,12 @@
 
 {% block content %}
 
-<div class="alert alert-warning">
-    <a href="{% url 'uncategorized-products' %}">There are 3 products without category</a>
+<div class="alert alert-{% if uncategorized_products_quantity == 0 %}success{% else %}warning{% endif %}">
+    <a href="{% url 'uncategorized-products' %}">
+        There are {{ uncategorized_products_quantity }} products without category
+    </a>
 </div>
+
 <div class="page-header">
     <h1>NFe {{ queryset.id|safe }}</h1>
 </div>
@@ -13,8 +16,3 @@
     <div style="border:2px solid black;>{{ queryset.raw_html|safe }}<div>
 </div>
 {% endblock content %}
-
-
-
-
-

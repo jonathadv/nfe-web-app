@@ -90,7 +90,13 @@ class NfeScanResult(APIView, mixins.UpdateModelMixin):
 
     def get(self, request):
         queryset = NfeDbModel.objects.get(id=request.GET.get("id"))
-        return Response({"queryset": queryset})
+        uncategorized_products_quantity = len(ProductDbModel.objects.filter(category__isnull=True))
+        return Response(
+            {
+                "queryset": queryset,
+                "uncategorized_products_quantity": uncategorized_products_quantity,
+            }
+        )
 
 
 class UncategorizedProducts(APIView):
