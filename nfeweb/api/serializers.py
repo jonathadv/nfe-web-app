@@ -54,6 +54,9 @@ class IssuerSerializer(serializers.ModelSerializer):
     address = AddressSerializer(read_only=False)
 
     def create(self, validated_data):
+        if (filtered := NfeIssuerDbModel.objects.filter(national_registration_code=validated_data["national_registration_code"])) and filtered:
+            return filtered[0]
+
         address = self.get_address(validated_data.pop("address"))
         instance = NfeIssuerDbModel.objects.create(**validated_data, address=address)
         return instance
