@@ -31,6 +31,7 @@ class ProductCategory(BaseModel):
 
     class Meta:
         db_table = "product_category"
+        ordering = ["title"]
 
     def __str__(self):
         return f"{self.title}"

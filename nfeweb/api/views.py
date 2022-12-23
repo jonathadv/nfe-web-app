@@ -62,7 +62,11 @@ class ProductCategoryViewSet(viewsets.ModelViewSet):
 
 
 class NfeViewSet(viewsets.ModelViewSet):
-    queryset = NfeDbModel.objects.all()
+    queryset = (
+        NfeDbModel.objects.select_related("issuer")
+        .select_related("issuer__address")
+        .prefetch_related("entries")
+    )
     serializer_class = NfeSerializerWithEntries
 
 
