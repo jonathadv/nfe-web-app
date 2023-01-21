@@ -68,11 +68,13 @@ class NfeViewSet(viewsets.ModelViewSet):
         .prefetch_related("entries")
     )
     serializer_class = NfeSerializerWithEntries
+    ordering_fields = ["-created_at"]
 
 
 class NfeScanViewSet(viewsets.ModelViewSet):
     queryset = NfeDbModel.objects.all()
     serializer_class = NfeCreateByUrlSerializer
+    ordering_fields = ["-created_at"]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

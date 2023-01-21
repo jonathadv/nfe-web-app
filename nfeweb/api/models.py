@@ -51,16 +51,18 @@ class ProductDbModel(BaseModel):
 
     class Meta:
         db_table = "product"
+        ordering = ["description"]
 
 
 class NfeIssuerDbModel(BaseModel):
     name = models.CharField(max_length=255)
     national_registration_code = models.CharField(max_length=255)
     state_registration_code = models.CharField(max_length=255)
-    address = models.ForeignKey(AddressDbModel, on_delete=models.PROTECT, related_name="nfe_issue")
+    address = models.ForeignKey(AddressDbModel, on_delete=models.CASCADE, related_name="nfe_issue")
 
     class Meta:
         db_table = "nfe_issuer"
+        ordering = ["name"]
 
 
 class NfeConsumerDbModel(BaseModel):
@@ -78,9 +80,9 @@ class NfeDbModel(BaseModel):
         STORE_CARD = "STORE_CARD", _("Store Card")
         FOOD_VOUCHER = "FOOD_VOUCHER", _("Food Voucher")
 
-    issuer = models.ForeignKey(NfeIssuerDbModel, on_delete=models.PROTECT, related_name="nfes")
+    issuer = models.ForeignKey(NfeIssuerDbModel, on_delete=models.CASCADE, related_name="nfes")
     consumer = models.ForeignKey(
-        NfeConsumerDbModel, on_delete=models.PROTECT, related_name="consumer"
+        NfeConsumerDbModel, on_delete=models.CASCADE, related_name="consumer"
     )
     issued_date = models.DateTimeField()
     access_key = models.CharField(max_length=255, unique=True)
@@ -92,10 +94,11 @@ class NfeDbModel(BaseModel):
 
     class Meta:
         db_table = "nfe"
+        ordering = ["-created_at"]
 
 
 class NfeEntryDbModel(BaseModel):
-    nfe = models.ForeignKey(NfeDbModel, on_delete=models.PROTECT, related_name="entries")
+    nfe = models.ForeignKey(NfeDbModel, on_delete=models.CASCADE, related_name="entries")
     product = models.ForeignKey(
         ProductDbModel, on_delete=models.PROTECT, related_name="nfe_entries"
     )
