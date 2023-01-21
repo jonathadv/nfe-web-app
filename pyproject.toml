@@ -66,6 +66,7 @@ format = { cmd = "isort nfeweb tests && black nfeweb", help = "format with isort
 lint = { cmd = "pylint nfeweb", help = "confirms code style using pylint" }
 test = { cmd = "pytest", help = "runs all unit tests" }
 "test:cov" = { cmd = "pytest --cov", help = "runs all unit tests" }
+"docker:build" = { cmd = "docker-compose down && docker-compose build --no-cache && docker-compose up -d", help = "build docker image" }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
