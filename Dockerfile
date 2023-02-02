@@ -7,7 +7,7 @@ ENV PYTHONFAULTHANDLER=1 \
 ENV PIP_DEFAULT_TIMEOUT=100 \
     PIP_DISABLE_PIP_VERSION_CHECK=1 \
     PIP_NO_CACHE_DIR=1 \
-    POETRY_VERSION=1.1.14 \
+    POETRY_VERSION=1.3.1 \
     WSGI_VERSION=2.0.20
 
 RUN apk add --no-cache gcc libffi-dev musl-dev postgresql-dev libxml2-dev libxslt-dev git pcre pcre-dev
