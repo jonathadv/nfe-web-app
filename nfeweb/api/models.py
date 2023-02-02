@@ -79,6 +79,7 @@ class NfeDbModel(BaseModel):
         MONEY = "MONEY", _("Money")
         STORE_CARD = "STORE_CARD", _("Store Card")
         FOOD_VOUCHER = "FOOD_VOUCHER", _("Food Voucher")
+        OTHER = "OTHER", _("Other")
 
     issuer = models.ForeignKey(NfeIssuerDbModel, on_delete=models.CASCADE, related_name="nfes")
     consumer = models.ForeignKey(
