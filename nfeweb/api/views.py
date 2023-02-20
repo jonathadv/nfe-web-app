@@ -9,7 +9,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from nfeweb.api.models import NfeDbModel, ProductCategory, ProductDbModel
+from nfeweb.api.models import NfeDbModel, ProductCategory, ProductDbModel, ProductType
 from nfeweb.api.serializers import (
     GroupSerializer,
     NfeCreateByUrlSerializer,
@@ -17,7 +17,7 @@ from nfeweb.api.serializers import (
     NfeSerializerWithEntries,
     ProductCategorySerializer,
     ProductSerializer,
-    UserSerializer,
+    UserSerializer, ProductTypeSerializers,
 )
 from nfeweb.api.services import NfeDbService, NfeScanService
 
@@ -46,11 +46,15 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = ProductDbModel.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ["category__title", "metric_unit", "barcode"]
+    filterset_fields = ["product_type__category__title", "metric_unit", "barcode"]
 
     def get_queryset(self):
         if "no_category" in self.request.query_params:
             return self.queryset.filter(category=None)
+
+        if "no_product_type" in self.request.query_params:
+            return self.queryset.filter(product_type=None)
+
         return super().get_queryset()
 
 
@@ -59,6 +63,13 @@ class ProductCategoryViewSet(viewsets.ModelViewSet):
     serializer_class = ProductCategorySerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["title"]
+
+
+class ProductTypeViewSet(viewsets.ModelViewSet):
+    queryset = ProductType.objects.all()
+    serializer_class = ProductTypeSerializers
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["name"]
 
 
 class NfeViewSet(viewsets.ModelViewSet):
@@ -96,7 +107,7 @@ class NfeScanResult(APIView, mixins.UpdateModelMixin):
 
     def get(self, request):
         queryset = NfeDbModel.objects.get(id=request.GET.get("id"))
-        uncategorized_products_quantity = len(ProductDbModel.objects.filter(category__isnull=True))
+        uncategorized_products_quantity = len(ProductDbModel.objects.filter(product_type__category__isnull=True))
         return Response(
             {
                 "queryset": queryset,
@@ -110,13 +121,15 @@ class UncategorizedProducts(APIView):
     template_name = "uncategorized_products.html"
 
     def get(self, request):
-        queryset = ProductDbModel.objects.filter(category__isnull=True)
+        queryset = ProductDbModel.objects.filter(product_type__isnull=True)
         products = [ProductSerializer(value) for value in queryset]
         return Response(
             {
                 "name": "Uncategorized Products",
                 "products": products,
                 "uncategorized_products": queryset,
+                "product_type_serializer": ProductTypeSerializers,
+                "product_category_serializer": ProductCategorySerializer,
             }
         )
 

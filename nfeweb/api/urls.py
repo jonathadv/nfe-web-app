@@ -9,6 +9,7 @@ api_router.register(r"groups", views.GroupViewSet)
 api_router.register(r"nfe-scan", views.NfeScanViewSet, basename="nfe-scan")
 api_router.register(r"nfe", views.NfeViewSet, basename="nfe")
 api_router.register(r"product-category", views.ProductCategoryViewSet, basename="product-category")
+api_router.register(r"product-type", views.ProductTypeViewSet, basename="product-type")
 api_router.register(r"product", views.ProductViewSet, basename="product")
 
 code_reader = path("nfeweb/nfe-scan-result", views.NfeScanResult.as_view(), name="nfe-scan-result")

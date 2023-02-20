@@ -7,11 +7,12 @@
 <div class="page-header">
     <h1>{{ name }}</h1>
 </div>
+    {% if products %}
 
     {% for product in products %}
     <div class="form-group">
         <form class="well" action="{% url 'uncategorized-products' %}" method="post" novalidate>
-            <h3>{{ product.description.value }}</h3>
+            <h3>{{ product.name.value }}</h3>
             {% csrf_token %}
             {% render_form product template_pack='rest_framework/vertical' %}
             <input type="hidden" name="id" value="{{ product.id.value }}">
@@ -20,6 +21,29 @@
     </div>
     {% endfor %}
 
+    <div class="form-group">
+        <form class="well" action="{% url 'product-type-list' %}" method="post" novalidate>
+            <h2>New Product Type</h2>
+            {% csrf_token %}
+            {% render_form product_type_serializer template_pack='rest_framework/vertical' %}
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+
+    <div class="form-group">
+        <form class="well" action="{% url 'product-category-list' %}" method="post" novalidate>
+            <h2>New Product Category</h2>
+            {% csrf_token %}
+            {% render_form product_category_serializer template_pack='rest_framework/vertical' %}
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form>
+    </div>
+
+    {% else %}
+    <div class="alert alert-success">
+        There are no uncategorized products
+    </div>
+    {% endif %}
 {% endblock content %}
 
 

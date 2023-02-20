@@ -90,7 +90,7 @@ class NfeDbService:
             product_serializer = ProductSerializer(
                 data={
                     "barcode": item.barcode,
-                    "description": item.description,
+                    "name": item.description,
                     "metric_unit": item.metric_unit.value,
                 }
             )
@@ -113,11 +113,11 @@ class NfeDbService:
                 product = ProductDbModel.objects.get(barcode=item.barcode)
                 product_id = product.id
 
-                if product.description != item.description:
+                if product.name != item.description:
                     raise ValidationError(
-                        f"Found product with barcode {item.barcode} but description does not match: "
-                        f"Description in db: {product.description}; "
-                        f"Description in new entry: {item.description};"
+                        f"Found product with barcode {item.barcode} but name does not match: "
+                        f"Name in db: {product.name}; "
+                        f"Name in new entry: {item.description};"
                     ) from err
 
             else:

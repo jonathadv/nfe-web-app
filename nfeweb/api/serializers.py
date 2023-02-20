@@ -10,7 +10,7 @@ from nfeweb.api.models import (
     NfeEntryDbModel,
     NfeIssuerDbModel,
     ProductCategory,
-    ProductDbModel,
+    ProductDbModel, ProductType,
 )
 
 LOGGER = logging.getLogger(__name__)
@@ -121,3 +121,9 @@ class NfeSerializer(serializers.ModelSerializer):
 
 class NfeSerializerWithEntries(NfeSerializer):
     entries = NfeEntrySerializer(many=True)
+
+
+class ProductTypeSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = ProductType
+        fields = "__all__"

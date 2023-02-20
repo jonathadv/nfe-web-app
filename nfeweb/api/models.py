@@ -27,6 +27,7 @@ class AddressDbModel(BaseModel):
 
 
 class ProductCategory(BaseModel):
+    parent = models.ForeignKey("ProductCategory", on_delete=models.CASCADE, null=True, blank=True)
     title = models.CharField(max_length=50, unique=True)
 
     class Meta:
@@ -37,21 +38,36 @@ class ProductCategory(BaseModel):
         return f"{self.title}"
 
 
+class ProductType(BaseModel):
+    name = models.CharField(max_length=255, unique=True)
+    category = models.ForeignKey(
+        ProductCategory, on_delete=models.CASCADE, related_name="product_type", null=True
+    )
+
+    class Meta:
+        db_table = "product_type"
+        ordering = ["name"]
+
+    def __str__(self):
+        return f"{self.name}"
+
+
 class ProductDbModel(BaseModel):
     class MetricUnit(models.TextChoices):
         KG = "KG", _("KG")
         UNIT = "UNIT", _("UNIT")
 
     barcode = models.CharField(max_length=255, unique=True)
-    description = models.TextField()
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, null=True)
     metric_unit = models.CharField(max_length=10, choices=MetricUnit.choices)
-    category = models.ForeignKey(
-        ProductCategory, on_delete=models.PROTECT, related_name="product", null=True
+    product_type = models.ForeignKey(
+        ProductType, on_delete=models.CASCADE, related_name="product", null=True
     )
 
     class Meta:
         db_table = "product"
-        ordering = ["description"]
+        ordering = ["name"]
 
 
 class NfeIssuerDbModel(BaseModel):

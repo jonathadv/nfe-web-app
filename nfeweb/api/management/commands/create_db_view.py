@@ -14,7 +14,9 @@ SELECT n.id AS nfe_id,
        nc.identification AS consumer_identification,
        concat(a.line1, ', ', a.line2, ' ', a.city, ', ', a.state, ', ', a.country) AS issuer_address,
        p.barcode AS item_barcode,
+       p.name AS item_name,
        p.description AS item_description,
+       pt."name" as product_type,
        pc.title AS item_category,
        p.metric_unit AS item_metric_unit,
        ne.quantity  AS item_quantity,
@@ -26,7 +28,8 @@ INNER JOIN nfe_issuer ni ON n.issuer_id = ni.id
 INNER JOIN address a ON ni.address_id = a.id
 INNER JOIN nfe_entry ne ON ne.nfe_id = n.id
 INNER JOIN product p ON p.id = ne.product_id
-LEFT JOIN product_category pc ON pc.id = p.category_id;
+inner join product_type pt on pt.id = p.product_type_id 
+LEFT JOIN product_category pc ON pc.id = pt.category_id;
 """
 
 
