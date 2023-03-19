@@ -10,6 +10,7 @@ services:
       - 3000:3000
     volumes:
       - /data/nfeweb/nfeweb-grafana/data:/var/lib/grafana
+      - /data/nfeweb/nfeweb-grafana/etc:/etc/grafana
       - /etc/timezone:/etc/timezone:ro
     environment:
       - TZ=America/Sao_Paulo
