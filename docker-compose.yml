@@ -1,4 +1,4 @@
-version: '2'
+version: '3.6'
 
 services:
   grafana:
@@ -14,6 +14,9 @@ services:
       - /etc/timezone:/etc/timezone:ro
     environment:
       - TZ=America/Sao_Paulo
+    networks:
+      - application
+      - database
 
   db:
     container_name: nfeweb-db
@@ -27,6 +30,8 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
       PGDATA: /data/pgdata
+    networks:
+      - database
 
   nfeweb:
     build:
@@ -39,6 +44,9 @@ services:
     environment:
       DB_HOST: nfeweb-db
       DB_POST: 5432
+    networks:
+      - application
+      - database
 
   web:
     image: nginx
@@ -50,3 +58,12 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - ./ui:/usr/share/nginx/html/ui:ro
     command: [nginx-debug, '-g', 'daemon off;']
+    networks:
+      - web
+      - application
+
+
+networks:
+  web: {}
+  application: {}
+  database: {}
