@@ -17,7 +17,8 @@ from nfeweb.api.serializers import (
     NfeSerializerWithEntries,
     ProductCategorySerializer,
     ProductSerializer,
-    UserSerializer, ProductTypeSerializers,
+    ProductTypeSerializers,
+    UserSerializer,
 )
 from nfeweb.api.services import NfeDbService, NfeScanService
 
@@ -107,7 +108,9 @@ class NfeScanResult(APIView, mixins.UpdateModelMixin):
 
     def get(self, request):
         queryset = NfeDbModel.objects.get(id=request.GET.get("id"))
-        uncategorized_products_quantity = len(ProductDbModel.objects.filter(product_type__category__isnull=True))
+        uncategorized_products_quantity = len(
+            ProductDbModel.objects.filter(product_type__category__isnull=True)
+        )
         return Response(
             {
                 "queryset": queryset,
