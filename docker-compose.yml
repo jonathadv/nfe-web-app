@@ -6,8 +6,8 @@ services:
     image: grafana/grafana-oss
     restart: always
     user: $DOCKER_UID:$DOCKER_GID
-    ports:
-      - 3000:3000
+#    ports:
+#      - 3000:3000
     volumes:
       - /data/nfeweb/nfeweb-grafana/data:/var/lib/grafana
       - /data/nfeweb/nfeweb-grafana/etc:/etc/grafana
@@ -22,8 +22,8 @@ services:
     container_name: nfeweb-db
     image: postgres
     restart: always
-    ports:
-      - 5432:5432
+#    ports:
+#      - 5432:5432
     volumes:
       - /data/nfeweb/nfeweb-db/data:/data/pgdata
     environment:
@@ -39,8 +39,8 @@ services:
       dockerfile: Dockerfile
     container_name: nfeweb-api
     restart: always
-    ports:
-      - 8090:8000
+#    ports:
+#      - 8090:8000
     environment:
       DB_HOST: nfeweb-db
       DB_POST: 5432
