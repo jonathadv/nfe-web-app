@@ -1,4 +1,5 @@
 import logging
+from difflib import SequenceMatcher
 
 from nfe_scanner.models import Nfe, NfeConsumer, NfeItem
 from nfe_scanner.nfe import scan_nfe
@@ -113,13 +114,25 @@ class NfeDbService:
                 product = ProductDbModel.objects.get(barcode=item.barcode)
                 product_id = product.id
 
+                acceptance_ration = 0.8
                 if product.name != item.description:
-                    raise ValidationError(
-                        f"Found product with barcode {item.barcode} but name does not match: "
-                        f"Name in db: {product.name}; "
-                        f"Name in new entry: {item.description};"
-                    ) from err
-
+                    match_ration = SequenceMatcher(None, product.name, item.description).ratio()
+                    if match_ration >= acceptance_ration:
+                        LOGGER.info(
+                            f"Product barcode %s found in db. "
+                            f"Name in db='%s' matches name in new entry='%s' by a ration of '%s', "
+                            f"which is acceptable.",
+                            item.barcode,
+                            product.name,
+                            item.description,
+                            match_ration,
+                        )
+                    else:
+                        raise ValidationError(
+                            f"Product barcode {item.barcode} found in db. "
+                            f"Name in db='{product.name}' matches name in new entry='{item.description}' "
+                            f"by a ration of '{match_ration}'. acceptance_ration >= {acceptance_ration}"
+                        ) from err
             else:
                 raise
         return product_id
