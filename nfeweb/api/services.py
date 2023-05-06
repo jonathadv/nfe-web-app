@@ -114,7 +114,7 @@ class NfeDbService:
                 product = ProductDbModel.objects.get(barcode=item.barcode)
                 product_id = product.id
 
-                acceptance_ration = 0.8
+                acceptance_ration = 0.5
                 if product.name != item.description:
                     match_ration = SequenceMatcher(None, product.name, item.description).ratio()
                     if match_ration >= acceptance_ration:
