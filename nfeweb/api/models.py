@@ -73,7 +73,7 @@ class ProductDbModel(BaseModel):
 class NfeIssuerDbModel(BaseModel):
     name = models.CharField(max_length=255)
     national_registration_code = models.CharField(max_length=255)
-    state_registration_code = models.CharField(max_length=255)
+    state_registration_code = models.CharField(max_length=255, null=True)
     address = models.ForeignKey(AddressDbModel, on_delete=models.CASCADE, related_name="nfe_issue")
 
     class Meta:
