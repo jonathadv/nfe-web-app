@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.static import static
+from django.conf import settings
 
 from nfeweb.api.urls import api_router, code_reader, uncategorized_products
 
@@ -9,4 +11,4 @@ urlpatterns = [
     path("nfeweb/", include(api_router.urls)),
     code_reader,
     uncategorized_products,
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
