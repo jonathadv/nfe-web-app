@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os
 from pathlib import Path
-
+import sys
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -136,10 +136,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "/nfeweb/static/"
-STATIC_ROOT = ""
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
+
+if len(sys.argv) > 1 and sys.argv[1] == "collectstatic":
+    STATIC_ROOT = f"{BASE_DIR}/static/"
+else:
+    STATICFILES_DIRS = [
+        BASE_DIR / "static",
+    ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
