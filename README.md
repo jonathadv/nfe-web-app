@@ -38,3 +38,8 @@ python manage.py migrate
 ```bash
 python manage.py create_db_view
 ```
+
+**Deploy**
+```bash
+docker-compose build --no-cache && docker-compose up -d
+```
