@@ -13,6 +13,8 @@ from nfeweb.api.models import NfeDbModel, ProductCategory, ProductDbModel, Produ
 from nfeweb.api.serializers import (
     GroupSerializer,
     NfeCreateByUrlSerializer,
+    NfeEntryDbModel,
+    NfeEntryReadSerializer,
     NfeSerializer,
     NfeSerializerWithEntries,
     ProductCategorySerializer,
@@ -78,6 +80,14 @@ class NfeViewSet(viewsets.ModelViewSet):
     )
     serializer_class = NfeSerializerWithEntries
     ordering_fields = ["-created_at"]
+    filter_backends = [DjangoFilterBackend]
+
+
+class NfeEntryViewSet(viewsets.ModelViewSet):
+    queryset = NfeEntryDbModel.objects.all()
+    serializer_class = NfeEntryReadSerializer
+    ordering_fields = ["-created_at"]
+    filterset_fields = ["product__id", "product__name", "product__barcode", "nfe__id"]
 
 
 class NfeScanViewSet(viewsets.ModelViewSet):

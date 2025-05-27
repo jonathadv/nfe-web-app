@@ -77,10 +77,16 @@ class NfeDbService:
             consumer_serializer.save()
             consumer_id = consumer_serializer.data.get("id")
         except ValidationError as err:
-            if "already exists" in str(err.args[0]):
+            error_value = str(err.args[0])
+            if "already exists" in error_value:
                 consumer_id = NfeConsumerDbModel.objects.get(
                     identification=consumer.identification
                 ).id
+            elif "This field may not be blank" in error_value:
+                consumer, _ = NfeConsumerDbModel.objects.get_or_create(
+                    identification="Consumidor não identificado"
+                )
+                consumer_id = consumer.id
             else:
                 raise
         return consumer_id

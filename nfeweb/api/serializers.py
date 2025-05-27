@@ -102,6 +102,14 @@ class NfeEntrySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class NfeEntryReadSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+
+    class Meta:
+        model = NfeEntryDbModel
+        fields = "__all__"
+
+
 class NfeSerializer(serializers.ModelSerializer):
     issuer = IssuerSerializer(read_only=False)
 
